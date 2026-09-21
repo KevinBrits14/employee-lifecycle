@@ -1,0 +1,48 @@
+// Prisma schema for Employee Lifecycle tracking
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model OnboardingRecord {
+  id                String   @id @default(cuid())
+  employeeId        String
+  fullName          String
+  email             String
+  phone             String?
+  position          String
+  department        String
+  startDate         DateTime
+  reportingManager  String?
+  managerEmail      String?
+  annualSalary      Float?
+  equipmentNeeded   String?
+  specialNotes      String?
+  status            String   @default("Initiated") // Initiated | In Progress | Complete
+  createdDate       DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model OffboardingRecord {
+  id                   String   @id @default(cuid())
+  fullName             String
+  employeeId           String
+  department           String
+  exitDate             DateTime
+  reasonForExit        String?
+  equipmentNotes       String?
+  status               String   @default("Outstanding") // Outstanding | In Progress | Complete
+  exitInterview        Boolean  @default(false)
+  equipmentReturn      Boolean  @default(false)
+  systemAccessRemoved  Boolean  @default(false)
+  finalPaycheck        Boolean  @default(false)
+  knowledgeTransfer    Boolean  @default(false)
+  createdDate          DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
